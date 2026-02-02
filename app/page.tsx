@@ -3,6 +3,7 @@
 import { useTasks } from '@/lib/hooks/useTasks';
 import { TaskList } from '@/components/features/TaskList';
 import { TaskForm } from '@/components/features/TaskForm';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 export default function Home() {
   const { tasks, addTask, toggleTask, deleteTask } = useTasks();
@@ -11,16 +12,21 @@ export default function Home() {
     <main className="min-h-screen p-8">
       <div className="max-w-2xl mx-auto space-y-8">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-5xl font-bold text-balance">
-            Todo App
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            Built with agentic AI development workflow
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500">
-            Following the Plan → Build → Test cycle
-          </p>
+        <div className="relative">
+          <div className="absolute top-0 right-0">
+            <ThemeToggle />
+          </div>
+          <div className="text-center space-y-2">
+            <h1 className="text-5xl font-bold text-balance">
+              Todo App
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              Built with agentic AI development workflow
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-500">
+              Following the Plan → Build → Test cycle
+            </p>
+          </div>
         </div>
 
         {/* Task Form */}
