@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import Home from './page'
 
+// Mock localStorage
+beforeEach(() => {
+  localStorage.clear();
+});
+
 describe('Home Page', () => {
   it('renders the main heading', () => {
     render(<Home />)
-    const heading = screen.getByRole('heading', { name: /todo app/i })
+    const heading = screen.getByRole('heading', { name: /todo app/i, level: 1 })
     expect(heading).toBeInTheDocument()
   })
 
@@ -20,9 +25,9 @@ describe('Home Page', () => {
     expect(cycleText).toBeInTheDocument()
   })
 
-  it('mentions Claude Code', () => {
+  it('shows task form', () => {
     render(<Home />)
-    const claudeText = screen.getByText(/developed using claude code/i)
-    expect(claudeText).toBeInTheDocument()
+    const formHeading = screen.getByText(/create new task/i)
+    expect(formHeading).toBeInTheDocument()
   })
 })

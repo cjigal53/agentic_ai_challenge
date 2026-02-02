@@ -1,10 +1,55 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Task, TaskInput } from '@/lib/types';
+
+const STORAGE_KEY = 'todo-app-tasks';
+
+function loadTasksFromStorage(): Task[] {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return [];
+
+    const parsed = JSON.parse(stored);
+    return parsed.map((task: any) => ({
+      ...task,
+      createdAt: new Date(task.createdAt),
+    }));
+  } catch (error) {
+    console.error('Failed to load tasks from localStorage:', error);
+    return [];
+  }
+}
+
+function saveTasksToStorage(tasks: Task[]) {
+  if (typeof window === 'undefined') return;
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  } catch (error) {
+    console.error('Failed to save tasks to localStorage:', error);
+  }
+}
 
 export function useTasks(initialTasks: Task[] = []) {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadedTasks = loadTasksFromStorage();
+    if (loadedTasks.length > 0) {
+      setTasks(loadedTasks);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      saveTasksToStorage(tasks);
+    }
+  }, [tasks, isLoaded]);
 
   const addTask = useCallback((taskInput: TaskInput): Task => {
     const newTask: Task = {

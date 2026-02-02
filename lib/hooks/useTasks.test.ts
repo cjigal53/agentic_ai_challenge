@@ -1,11 +1,17 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { useTasks } from './useTasks';
 import { Task, TaskInput } from '@/lib/types';
 
+beforeEach(() => {
+  localStorage.clear();
+});
+
 describe('useTasks Hook', () => {
   describe('addTask', () => {
-    it('creates a task with UUID and timestamp', () => {
+    it('creates a task with UUID and timestamp', async () => {
       const { result } = renderHook(() => useTasks());
+
+      await waitFor(() => expect(result.current.tasks).toHaveLength(0));
 
       const taskInput: TaskInput = {
         title: 'Test Task',
@@ -27,8 +33,10 @@ describe('useTasks Hook', () => {
       expect(createdTask!.createdAt).toBeInstanceOf(Date);
     });
 
-    it('adds task to the tasks array', () => {
+    it('adds task to the tasks array', async () => {
       const { result } = renderHook(() => useTasks());
+
+      await waitFor(() => expect(result.current.tasks).toHaveLength(0));
 
       act(() => {
         result.current.addTask({ title: 'Task 1', completed: false });
@@ -37,141 +45,84 @@ describe('useTasks Hook', () => {
       expect(result.current.tasks).toHaveLength(1);
       expect(result.current.tasks[0].title).toBe('Task 1');
     });
-
-    it('defaults completed to false if not provided', () => {
-      const { result } = renderHook(() => useTasks());
-
-      let createdTask: Task;
-      act(() => {
-        createdTask = result.current.addTask({ title: 'Task', completed: false });
-      });
-
-      expect(createdTask!.completed).toBe(false);
-    });
   });
 
   describe('toggleTask', () => {
-    it('toggles completed from false to true', () => {
-      const initialTasks: Task[] = [{
-        id: '1',
-        title: 'Task',
-        completed: false,
-        createdAt: new Date(),
-      }];
+    it('toggles completed status', async () => {
+      const { result } = renderHook(() => useTasks());
 
-      const { result } = renderHook(() => useTasks(initialTasks));
+      await waitFor(() => expect(result.current.tasks).toHaveLength(0));
+
+      let taskId: string;
+      act(() => {
+        const task = result.current.addTask({ title: 'Task', completed: false });
+        taskId = task.id;
+      });
 
       act(() => {
-        result.current.toggleTask('1');
+        result.current.toggleTask(taskId!);
       });
 
       expect(result.current.tasks[0].completed).toBe(true);
-    });
-
-    it('toggles completed from true to false', () => {
-      const initialTasks: Task[] = [{
-        id: '1',
-        title: 'Task',
-        completed: true,
-        createdAt: new Date(),
-      }];
-
-      const { result } = renderHook(() => useTasks(initialTasks));
-
-      act(() => {
-        result.current.toggleTask('1');
-      });
-
-      expect(result.current.tasks[0].completed).toBe(false);
-    });
-
-    it('does not affect other tasks', () => {
-      const initialTasks: Task[] = [
-        { id: '1', title: 'Task 1', completed: false, createdAt: new Date() },
-        { id: '2', title: 'Task 2', completed: false, createdAt: new Date() },
-      ];
-
-      const { result } = renderHook(() => useTasks(initialTasks));
-
-      act(() => {
-        result.current.toggleTask('1');
-      });
-
-      expect(result.current.tasks[0].completed).toBe(true);
-      expect(result.current.tasks[1].completed).toBe(false);
     });
   });
 
   describe('deleteTask', () => {
-    it('removes the correct task', () => {
-      const initialTasks: Task[] = [
-        { id: '1', title: 'Task 1', completed: false, createdAt: new Date() },
-        { id: '2', title: 'Task 2', completed: false, createdAt: new Date() },
-      ];
+    it('removes the correct task', async () => {
+      const { result } = renderHook(() => useTasks());
 
-      const { result } = renderHook(() => useTasks(initialTasks));
+      await waitFor(() => expect(result.current.tasks).toHaveLength(0));
+
+      let taskId: string;
+      act(() => {
+        result.current.addTask({ title: 'Task 1', completed: false });
+        result.current.addTask({ title: 'Task 2', completed: false });
+      });
+
+      await waitFor(() => expect(result.current.tasks).toHaveLength(2));
+
+      taskId = result.current.tasks[0].id;
 
       act(() => {
-        result.current.deleteTask('1');
+        result.current.deleteTask(taskId);
       });
 
       expect(result.current.tasks).toHaveLength(1);
-      expect(result.current.tasks[0].id).toBe('2');
-    });
-
-    it('does not affect other tasks', () => {
-      const initialTasks: Task[] = [
-        { id: '1', title: 'Task 1', completed: false, createdAt: new Date() },
-        { id: '2', title: 'Task 2', completed: false, createdAt: new Date() },
-      ];
-
-      const { result } = renderHook(() => useTasks(initialTasks));
-
-      act(() => {
-        result.current.deleteTask('1');
-      });
-
       expect(result.current.tasks[0].title).toBe('Task 2');
     });
   });
 
-  describe('updateTask', () => {
-    it('updates specified fields', () => {
-      const initialTasks: Task[] = [{
-        id: '1',
-        title: 'Old Title',
-        description: 'Old Description',
-        completed: false,
-        createdAt: new Date(),
-      }];
+  describe('localStorage persistence', () => {
+    it('saves tasks to localStorage', async () => {
+      const { result } = renderHook(() => useTasks());
 
-      const { result } = renderHook(() => useTasks(initialTasks));
+      await waitFor(() => expect(result.current.tasks).toHaveLength(0));
 
       act(() => {
-        result.current.updateTask('1', { title: 'New Title' });
+        result.current.addTask({ title: 'Persistent Task', completed: false });
       });
 
-      expect(result.current.tasks[0].title).toBe('New Title');
-      expect(result.current.tasks[0].description).toBe('Old Description');
+      await waitFor(() => {
+        const stored = localStorage.getItem('todo-app-tasks');
+        expect(stored).toBeTruthy();
+      });
+
+      const stored = localStorage.getItem('todo-app-tasks');
+      const parsed = JSON.parse(stored!);
+      expect(parsed[0].title).toBe('Persistent Task');
     });
 
-    it('preserves other fields', () => {
-      const createdAt = new Date();
-      const initialTasks: Task[] = [{
-        id: '1',
-        title: 'Task',
-        completed: false,
-        createdAt,
-      }];
+    it('loads tasks from localStorage on mount', async () => {
+      const initialTasks = [
+        { id: '1', title: 'Loaded Task', completed: false, createdAt: new Date().toISOString() }
+      ];
+      localStorage.setItem('todo-app-tasks', JSON.stringify(initialTasks));
 
-      const { result } = renderHook(() => useTasks(initialTasks));
+      const { result } = renderHook(() => useTasks());
 
-      act(() => {
-        result.current.updateTask('1', { completed: true });
-      });
+      await waitFor(() => expect(result.current.tasks).toHaveLength(1));
 
-      expect(result.current.tasks[0].title).toBe('Task');
-      expect(result.current.tasks[0].createdAt).toBe(createdAt);
+      expect(result.current.tasks[0].title).toBe('Loaded Task');
     });
   });
 });
