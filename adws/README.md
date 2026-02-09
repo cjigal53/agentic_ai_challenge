@@ -1,6 +1,104 @@
 # AI Developer Workflows (ADWs)
 
-This directory contains the autonomous AI workflows used throughout this project's development.
+This directory contains both **executable orchestration scripts** and **documentation** of the autonomous AI workflows used throughout this project's development.
+
+## 🚀 Executable Workflows
+
+This project includes **fully executable** Python scripts that orchestrate Claude CLI to implement features autonomously. These are NOT just documentation - they are production-ready automation.
+
+### Quick Start
+
+**Option 1: Manual Execution**
+```bash
+# Install dependencies
+pip3 install -r adws/requirements.txt
+
+# Run full cycle for an issue
+python3 adws/orchestrator.py 42
+```
+
+**Option 2: Automated via Webhook**
+```bash
+# Start webhook listener + tunnel
+./adws/start_listener.sh
+
+# Configure GitHub webhook (URL will be shown)
+# Create issue → Agent processes automatically
+```
+
+### Architecture
+
+```
+GitHub Issue (created)
+    ↓
+Webhook → Local listener → Orchestrator
+    ↓
+Sequential execution:
+    1. PLAN  → python3 adws/plan.py    → generates spec
+    2. BUILD → python3 adws/build.py   → implements code
+    3. TEST  → python3 adws/test.py    → writes/runs tests
+    4. COMMIT → python3 adws/commit.py → commits + closes issue
+```
+
+### Executable Scripts
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `orchestrator.py` | Main entry point, validates and routes issues | `python3 adws/orchestrator.py <issue_num>` |
+| `full_cycle.py` | Runs all 4 phases sequentially | `python3 adws/full_cycle.py <issue_num>` |
+| `plan.py` | PLAN phase: Issue → Spec | `python3 adws/plan.py <issue_num>` |
+| `build.py` | BUILD phase: Spec → Code | `python3 adws/build.py <issue_num> <spec_path>` |
+| `test.py` | TEST phase: Code → Tests (with retries) | `python3 adws/test.py <issue_num> <spec_path>` |
+| `commit.py` | COMMIT phase: Tests → Commit + Close | `python3 adws/commit.py <issue_num>` |
+| `webhook_listener.py` | Flask server for GitHub webhooks | `python3 adws/webhook_listener.py` |
+| `start_listener.sh` | Starts listener + Cloudflare Tunnel | `./adws/start_listener.sh` |
+
+### Command Templates
+
+Structured prompts for Claude CLI (in `.claude/commands/`):
+
+- **plan.md**: Generates spec from issue (with exact format requirements)
+- **build.md**: Implements code from spec (TypeScript + Next.js patterns)
+- **test.md**: Writes tests + fixes failures (React Testing Library)
+- **commit.md**: Creates conventional commit + closes issue
+
+### Configuration
+
+Edit `adws/config.yaml`:
+
+```yaml
+github:
+  repo: owner/repo
+
+anthropic:
+  model: claude-sonnet-4-5
+
+timeouts:
+  claude_timeout_seconds: 600
+  max_retries: 3
+
+labels:
+  processing: "🤖 agent-processing"
+  needs_review: "needs-human-review"
+  completed: "✅ auto-completed"
+```
+
+### Environment Variables
+
+```bash
+# Optional: For webhook signature verification
+export GITHUB_WEBHOOK_SECRET="your-secret-here"
+
+# Optional: Custom webhook port (default: 5000)
+export WEBHOOK_PORT=5000
+```
+
+### Logs & State
+
+- **Logs**: `adws/logs/workflow.log` and `adws/logs/webhook.log`
+- **State**: `adws/state/issue-N.json` (result of each workflow run)
+
+---
 
 ## What are ADWs?
 

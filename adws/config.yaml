@@ -1,0 +1,20 @@
+github:
+  repo: cjigal53/agentic_ai_challenge
+
+anthropic:
+  model: claude-sonnet-4-5
+
+paths:
+  specs: specs/
+  commands: .claude/commands/
+  logs: adws/logs/
+  state: adws/state/
+
+timeouts:
+  claude_timeout_seconds: 600  # 10 minutes
+  max_retries: 3
+
+labels:
+  processing: "🤖 agent-processing"
+  needs_review: "needs-human-review"
+  completed: "✅ auto-completed"
