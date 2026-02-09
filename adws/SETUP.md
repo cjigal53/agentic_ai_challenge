@@ -186,7 +186,7 @@ The orchestrator adds labels to issues:
 
 1. **Check tunnel is running:**
    ```bash
-   curl http://localhost:5000/health
+   curl http://localhost:5555/health
    # Should return: {"status":"ok"}
    ```
 

@@ -70,7 +70,7 @@ echo -e "${GREEN}🌐 Starting Cloudflare Tunnel...${NC}"
 echo -e "${BLUE}================================================${NC}"
 echo ""
 
-cloudflared tunnel --url http://localhost:5000 &
+cloudflared tunnel --url http://localhost:5555 &
 CLOUDFLARED_PID=$!
 
 echo ""

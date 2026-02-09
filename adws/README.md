@@ -89,8 +89,8 @@ labels:
 # Optional: For webhook signature verification
 export GITHUB_WEBHOOK_SECRET="your-secret-here"
 
-# Optional: Custom webhook port (default: 5000)
-export WEBHOOK_PORT=5000
+# Optional: Custom webhook port (default: 5555)
+export WEBHOOK_PORT=5555
 ```
 
 ### Logs & State

@@ -121,7 +121,7 @@ The improved submission has:
 
 **Cloudflare Tunnel Integration:**
 - Free, no account required (`*.trycloudflare.com`)
-- Exposes `localhost:5000` publicly
+- Exposes `localhost:5555` publicly
 - GitHub webhook → Cloudflare → Your machine
 - No need for a server or cloud deployment
 

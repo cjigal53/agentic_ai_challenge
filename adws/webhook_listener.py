@@ -172,7 +172,7 @@ def health():
 
 def main():
     """Start webhook listener."""
-    port = int(os.environ.get('WEBHOOK_PORT', '5000'))
+    port = int(os.environ.get('WEBHOOK_PORT', '5555'))
 
     logger.info("=" * 60)
     logger.info("GitHub Webhook Listener Starting")
