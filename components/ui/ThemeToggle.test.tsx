@@ -121,9 +121,10 @@ describe('ThemeToggle', () => {
     render(<ThemeToggle />);
     const button = screen.getByRole('button');
 
-    expect(button).toHaveClass('p-2');
-    expect(button).toHaveClass('rounded-lg');
-    expect(button).toHaveClass('border');
+    // Glassmorphism design (Issue #25)
+    expect(button).toHaveClass('p-3');
+    expect(button).toHaveClass('glass-card');
+    expect(button).toHaveClass('rounded-xl');
     expect(button).toHaveClass('focus:outline-none');
     expect(button).toHaveClass('focus:ring-2');
   });
