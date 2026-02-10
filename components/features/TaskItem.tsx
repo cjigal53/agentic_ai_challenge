@@ -1,6 +1,7 @@
 'use client';
 
 import { Task } from '@/lib/types';
+import { formatTaskTimestamp } from '@/lib/utils';
 
 interface TaskItemProps {
   task: Task;
@@ -62,7 +63,7 @@ export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
             </p>
           )}
           <p className="text-xs text-text-secondary/60 mt-3">
-            {new Date(task.createdAt).toLocaleDateString()}
+            Created: {formatTaskTimestamp(task.createdAt)}
           </p>
         </div>
         <button
