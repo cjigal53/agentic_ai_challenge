@@ -4,6 +4,7 @@ import hmac
 import hashlib
 import os
 import subprocess
+import sys
 import threading
 import logging
 from pathlib import Path
@@ -84,9 +85,9 @@ def process_issue_in_background(issue_number: int) -> None:
         # Get absolute path to orchestrator
         orchestrator_path = Path(__file__).parent / "orchestrator.py"
 
-        # Run orchestrator
+        # Run orchestrator using the same Python interpreter (from venv)
         result = subprocess.run(
-            ["python3", str(orchestrator_path), str(issue_number)],
+            [sys.executable, str(orchestrator_path), str(issue_number)],
             capture_output=True,
             text=True,
             cwd=str(Path(__file__).parent.parent)  # Run from repo root
