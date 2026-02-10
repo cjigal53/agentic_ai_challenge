@@ -30,7 +30,7 @@ def is_issue_processable(issue: dict) -> tuple[bool, str]:
         Tuple of (processable: bool, reason: str)
     """
     # Check if issue is open
-    if issue["state"] != "open":
+    if issue["state"].lower() != "open":
         return False, "Issue is not open"
 
     # Check if already being processed
