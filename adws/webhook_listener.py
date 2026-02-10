@@ -9,7 +9,14 @@ import threading
 import logging
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
+
+# Load environment variables from .env file
+env_path = Path(__file__).parent / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
+    logging.info(f"Loaded environment from {env_path}")
 
 # Configure logging
 logging.basicConfig(

@@ -1,10 +1,18 @@
 """Claude CLI wrapper for invoking the agent."""
 import logging
+import os
 import subprocess
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
+
 from .config import load_config
+
+# Load environment variables from .env file
+env_path = Path(__file__).parent.parent / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
 
 logger = logging.getLogger(__name__)
 
@@ -45,13 +53,21 @@ def invoke_claude(
         logger.info("Invoking Claude CLI...")
         logger.debug(f"Prompt preview: {prompt[:200]}...")
 
+        # Prepare environment with API key
+        env = os.environ.copy()
+
+        # Ensure ANTHROPIC_API_KEY is available
+        if not env.get('ANTHROPIC_API_KEY'):
+            logger.warning("ANTHROPIC_API_KEY not found in environment")
+
         result = subprocess.run(
             ["claude", "-p", prompt],
             capture_output=True,
             text=True,
             check=True,
             timeout=timeout,
-            cwd=str(cwd)
+            cwd=str(cwd),
+            env=env  # Pass environment variables explicitly
         )
 
         output = result.stdout.strip()
