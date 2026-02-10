@@ -279,6 +279,80 @@ To verify these workflows were actually used:
 
 ---
 
+## ⚠️ Limitations and Known Issues
+
+While this system demonstrates true autonomous development, it's important to understand its limitations:
+
+### Agent Can Make Mistakes
+
+**Real Example: Issue #24**
+
+**What was requested:** Change page header from "Todo App" to "Todo App by CJI"
+
+**What the agent did:**
+- ✅ Completed all 4 phases successfully (PLAN → BUILD → TEST → COMMIT)
+- ✅ Made a change to a file with "Todo App" text
+- ❌ Changed `Header.tsx` (unused component) instead of `app/page.tsx` (actual visible title)
+- ❌ Issue was closed as "completed" but the visible title didn't change
+
+**Why this happened:**
+- Agent identified multiple files with "Todo App" text
+- Agent made an incorrect assumption about which component was rendering the visible title
+- TypeScript compilation passed (change was syntactically correct)
+- Tests passed (no existing tests covered the specific title text)
+
+**How it was fixed:**
+- Human verification caught the error
+- Manual fix applied to correct file (`app/page.tsx`)
+- Comment added to issue explaining the mistake
+
+**View the issue:** [#24](https://github.com/cjigal53/agentic_ai_challenge/issues/24)
+
+### Common Failure Modes
+
+1. **Wrong File Selection**
+   - Agent changes similar-looking code in wrong location
+   - **Mitigation**: Human review of changes before deployment
+
+2. **Incomplete Context**
+   - Agent doesn't understand which components are actually used
+   - **Mitigation**: Better specs with explicit file paths
+
+3. **Test Coverage Gaps**
+   - Tests pass but don't catch semantic errors
+   - **Mitigation**: More specific acceptance criteria
+
+4. **Ambiguous Requirements**
+   - Vague issue descriptions lead to wrong interpretations
+   - **Mitigation**: Detailed, unambiguous issue descriptions
+
+### Best Practices for Using This System
+
+✅ **DO:**
+- Write detailed, specific issue descriptions
+- Specify exact file paths when known
+- Review agent's spec before letting it continue
+- Verify changes after deployment
+- Use the system for well-structured, isolated tasks
+
+❌ **DON'T:**
+- Assume agent output is always correct
+- Skip human verification of critical changes
+- Use for complex refactoring without review
+- Deploy directly to production without testing
+
+### Success Rate
+
+Based on issues #16-#24 processed by the system:
+- **Total issues processed:** 9
+- **Successful end-to-end:** 8 (89%)
+- **Required manual fixes:** 1 (11%)
+- **False positives (marked complete but incorrect):** 1 (11%)
+
+The system is **highly autonomous but not infallible**. Human verification remains essential.
+
+---
+
 ## Why This Matters
 
 This project demonstrates **true autonomous development**, not just "AI-assisted coding":
@@ -292,7 +366,9 @@ This project demonstrates **true autonomous development**, not just "AI-assisted
 ❌ **Not This**: AI helps with difficult parts
 ✅ **But This**: AI handles entire development lifecycle autonomously
 
-The ADWs in this directory prove that agents can execute complete software development workflows with minimal human intervention, following the methodology taught in the Agentic AI course.
+**With the caveat:** Human verification is still necessary to catch edge cases and incorrect interpretations.
+
+The ADWs in this directory prove that agents can execute complete software development workflows with **minimal but necessary** human intervention, following the methodology taught in the Agentic AI course.
 
 ---
 
