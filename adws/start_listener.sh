@@ -3,6 +3,10 @@
 
 set -e
 
+# Get script directory (works even if called from elsewhere)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR/.."  # Go to project root
+
 # Colors for output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
