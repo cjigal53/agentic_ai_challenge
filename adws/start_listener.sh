@@ -39,12 +39,6 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-if ! command -v cloudflared &> /dev/null; then
-    echo -e "${YELLOW}❌ cloudflared not found${NC}"
-    echo "   Install: brew install cloudflare/cloudflare/cloudflared"
-    exit 1
-fi
-
 # Setup virtual environment
 VENV_DIR="adws/venv"
 
@@ -79,27 +73,21 @@ if ! kill -0 $LISTENER_PID 2>/dev/null; then
 fi
 
 echo -e "${GREEN}✅ Webhook listener running (PID: $LISTENER_PID)${NC}"
-echo ""
-
-# Start Cloudflare Tunnel
-echo -e "${GREEN}🌐 Starting Cloudflare Tunnel...${NC}"
-echo -e "${BLUE}================================================${NC}"
-echo ""
-
-cloudflared tunnel --url http://localhost:5555 &
-CLOUDFLARED_PID=$!
-
+echo -e "${GREEN}✅ Listening on http://localhost:5555${NC}"
 echo ""
 echo -e "${GREEN}✅ Setup complete!${NC}"
 echo ""
-echo -e "${YELLOW}Next steps:${NC}"
-echo "1. Copy the trycloudflare.com URL shown above"
-echo "2. Go to GitHub repo Settings → Webhooks → Add webhook"
-echo "3. Paste URL + /webhook (e.g., https://xxx.trycloudflare.com/webhook)"
-echo "4. Content type: application/json"
-echo "5. Secret: Use your GITHUB_WEBHOOK_SECRET value"
-echo "6. Events: Select 'Issues' only"
-echo "7. Active: ✓"
+echo -e "${YELLOW}ℹ️  Make sure your Cloudflare Tunnel is pointing to localhost:5555${NC}"
+echo ""
+echo -e "${YELLOW}GitHub webhook should be configured with:${NC}"
+echo "  • Payload URL: https://your-tunnel-url/webhook"
+echo "  • Content type: application/json"
+echo "  • Secret: Your GITHUB_WEBHOOK_SECRET value"
+echo "  • Events: Issues only"
+echo ""
+echo -e "${BLUE}Logs:${NC}"
+echo "  • tail -f adws/logs/webhook.log"
+echo "  • tail -f adws/logs/workflow.log"
 echo ""
 echo -e "${BLUE}Press Ctrl+C to stop${NC}"
 echo ""
@@ -109,12 +97,11 @@ cleanup() {
     echo ""
     echo -e "${YELLOW}Shutting down...${NC}"
     kill $LISTENER_PID 2>/dev/null || true
-    kill $CLOUDFLARED_PID 2>/dev/null || true
     echo -e "${GREEN}✅ Stopped${NC}"
     exit 0
 }
 
 trap cleanup INT TERM
 
-# Wait for both processes
+# Wait for listener
 wait
