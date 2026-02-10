@@ -41,16 +41,28 @@ if ! command -v cloudflared &> /dev/null; then
     exit 1
 fi
 
+# Setup virtual environment
+VENV_DIR="adws/venv"
+
+if [ ! -d "$VENV_DIR" ]; then
+    echo -e "${GREEN}📦 Creating virtual environment...${NC}"
+    python3 -m venv "$VENV_DIR"
+fi
+
+# Activate virtual environment
+echo -e "${GREEN}🔧 Activating virtual environment...${NC}"
+source "$VENV_DIR/bin/activate"
+
 # Install Python dependencies
 echo -e "${GREEN}📦 Installing Python dependencies...${NC}"
-pip3 install -q -r adws/requirements.txt
+pip install -q -r adws/requirements.txt
 
 # Create logs directory
 mkdir -p adws/logs
 
-# Start webhook listener in background
+# Start webhook listener in background (using venv python)
 echo -e "${GREEN}🚀 Starting webhook listener...${NC}"
-python3 adws/webhook_listener.py &
+python adws/webhook_listener.py &
 LISTENER_PID=$!
 
 # Give it a moment to start
