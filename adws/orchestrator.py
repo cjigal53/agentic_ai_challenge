@@ -82,16 +82,28 @@ def orchestrate(issue_number: int) -> int:
             print(f"⚠️  Issue not processable: {reason}")
             return 0  # Not an error, just skip
 
-        # 3. Add processing label
+        # 3. Add processing label and initial comment
         logger.info("Adding processing label...")
         try:
             add_label(issue_number, config["labels"]["processing"])
+        except GitHubError as e:
+            logger.warning(f"Failed to add label (non-critical): {e}")
+
+        # Always add initial comment (even if label fails)
+        try:
             add_comment(
                 issue_number,
-                "🤖 **Agentic workflow started**\n\nThe agent is now processing this issue.\n\nPhases: PLAN → BUILD → TEST → COMMIT"
+                "🤖 **Agentic AI Workflow Started**\n\n"
+                "An autonomous agent is now processing this issue end-to-end.\n\n"
+                "**Planned phases:**\n"
+                "1. 📝 PLAN - Generate specification\n"
+                "2. 🔨 BUILD - Implement code\n"
+                "3. ✅ TEST - Write and run tests\n"
+                "4. 🚀 COMMIT - Commit and close issue\n\n"
+                "_This issue will be resolved automatically without human intervention._"
             )
         except GitHubError as e:
-            logger.warning(f"Failed to add label/comment (non-critical): {e}")
+            logger.warning(f"Failed to add comment (non-critical): {e}")
 
         # 4. Run full cycle
         logger.info("Starting full cycle...")

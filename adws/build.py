@@ -91,7 +91,14 @@ def run_build_phase(issue_number: int, spec_path: Path) -> None:
     try:
         add_comment(
             issue_number,
-            f"✅ **BUILD phase completed**\n\nCode implemented according to spec.\n\nNext: TEST phase"
+            f"✅ **Phase 2/4: BUILD - Completed**\n\n"
+            f"**Agent Actions:**\n"
+            f"- ✓ Read specification requirements\n"
+            f"- ✓ Implemented code following spec\n"
+            f"- ✓ Verified TypeScript compilation\n"
+            f"- ✓ All type checks passed\n\n"
+            f"**Next:** Phase 3/4 - TEST (write and run tests)\n\n"
+            f"_Agent is continuing autonomously..._"
         )
     except GitHubError as e:
         logger.warning(f"Failed to add comment (non-critical): {e}")

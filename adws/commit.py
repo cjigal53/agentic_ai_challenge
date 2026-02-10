@@ -146,19 +146,30 @@ def run_commit_phase(issue_number: int, test_results: dict) -> dict:
     # 7. Close issue
     logger.info("Closing GitHub issue...")
     repo_name = config["github"]["repo"]
-    closing_comment = f"""✅ **Issue completed successfully**
+    closing_comment = f"""✅ **Phase 4/4: COMMIT - Completed**
 
-**Summary:**
-- Tests passed after {test_results.get('attempts', 1)} attempt(s)
-- Commit: [{commit_sha[:7]}](https://github.com/{repo_name}/commit/{commit_sha})
+🎉 **Issue Resolved Autonomously by AI Agent**
 
-**Workflow phases:**
-1. ✅ PLAN - Specification generated
-2. ✅ BUILD - Code implemented
-3. ✅ TEST - All tests passing
-4. ✅ COMMIT - Changes pushed
+**Final Actions:**
+- ✓ Staged all changes
+- ✓ Created conventional commit: `{commit_message}`
+- ✓ Pushed to remote: [{commit_sha[:7]}](https://github.com/{repo_name}/commit/{commit_sha})
+- ✓ Closing issue automatically
 
-Automatically closed by agentic workflow.
+---
+
+**Complete Workflow Summary:**
+
+1. ✅ **PLAN** - Specification generated and committed
+2. ✅ **BUILD** - Code implemented and type-checked
+3. ✅ **TEST** - Tests written and passed ({test_results.get('attempts', 1)} attempt{'s' if test_results.get('attempts', 1) > 1 else ''})
+4. ✅ **COMMIT** - Changes committed and pushed
+
+**Commit:** [{commit_sha[:7]}](https://github.com/{repo_name}/commit/{commit_sha})
+
+---
+
+_This issue was processed end-to-end by an autonomous AI agent without human intervention._
 """
 
     try:

@@ -128,7 +128,13 @@ def run_plan_phase(issue_number: int) -> Path:
     try:
         add_comment(
             issue_number,
-            f"✅ **PLAN phase completed**\n\nSpecification generated: `{spec_filename}`\n\nNext: BUILD phase"
+            f"✅ **Phase 1/4: PLAN - Completed**\n\n"
+            f"**Agent Actions:**\n"
+            f"- ✓ Analyzed issue requirements\n"
+            f"- ✓ Generated specification document\n"
+            f"- ✓ Committed spec: `{spec_filename}`\n\n"
+            f"**Next:** Phase 2/4 - BUILD (implement code)\n\n"
+            f"_Agent is continuing autonomously..._"
         )
     except GitHubError as e:
         logger.warning(f"Failed to add comment (non-critical): {e}")

@@ -147,7 +147,14 @@ def main():
             try:
                 add_comment(
                     args.issue_number,
-                    f"✅ **TEST phase completed**\n\nAll tests passed after {result['attempts']} attempt(s).\n\nNext: COMMIT phase"
+                    f"✅ **Phase 3/4: TEST - Completed**\n\n"
+                    f"**Agent Actions:**\n"
+                    f"- ✓ Analyzed acceptance criteria\n"
+                    f"- ✓ {'Wrote tests for new code' if result['attempts'] == 1 else 'Wrote tests and fixed issues'}\n"
+                    f"- ✓ Executed test suite\n"
+                    f"- ✓ All tests passed ({result['attempts']} attempt{'s' if result['attempts'] > 1 else ''})\n\n"
+                    f"**Next:** Phase 4/4 - COMMIT (commit and close issue)\n\n"
+                    f"_Agent is continuing autonomously..._"
                 )
             except GitHubError as e:
                 logger.warning(f"Failed to add comment (non-critical): {e}")
