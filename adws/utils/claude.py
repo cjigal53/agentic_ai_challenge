@@ -62,6 +62,8 @@ def invoke_claude(
 
     except subprocess.CalledProcessError as e:
         error_msg = f"Claude CLI failed with exit code {e.returncode}"
+        logger.error(f"STDOUT: {e.stdout}")
+        logger.error(f"STDERR: {e.stderr}")
         if e.stderr:
             error_msg += f": {e.stderr}"
         logger.error(error_msg)
