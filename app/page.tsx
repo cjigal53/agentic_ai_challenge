@@ -18,7 +18,7 @@ export default function Home() {
           </div>
           <div className="text-center space-y-2">
             <h1 className="text-5xl font-bold text-balance">
-              Todo App
+              Todo App by CJI
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400">
               Built with agentic AI development workflow
