@@ -41,9 +41,9 @@ export function TaskForm({ onAddTask }: TaskFormProps) {
       <div>
         <label
           htmlFor="title"
-          className="block text-sm font-bold uppercase tracking-wider text-text-primary mb-3"
+          className="block text-sm font-semibold text-text-primary mb-3"
         >
-          Task Title *
+          Task Title <span className="text-coral">*</span>
         </label>
         <input
           type="text"
@@ -53,19 +53,26 @@ export function TaskForm({ onAddTask }: TaskFormProps) {
             setTitle(e.target.value);
             setError('');
           }}
-          placeholder="Enter task title..."
+          placeholder="What needs to be done?"
           maxLength={100}
-          className="w-full px-5 py-4 bg-background border-3 border-charcoal
-                     text-text-primary placeholder-stone/60 font-medium
-                     focus:border-terracotta focus:shadow-brutal-sm
-                     transition-all duration-150
-                     hover:border-stone"
+          className="w-full px-5 py-4 glass-card rounded-2xl
+                     text-text-primary placeholder:text-text-secondary/50 font-medium
+                     focus:ring-2 focus:ring-purple/50 focus:shadow-glow-purple
+                     transition-all duration-300
+                     hover:shadow-glass-lg"
         />
-        <div className="flex justify-between mt-3">
+        <div className="flex justify-between items-center mt-2">
           {error && (
-            <p className="text-sm font-bold text-terracotta">{error}</p>
+            <p className="text-sm font-semibold text-coral flex items-center gap-1.5">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {error}
+            </p>
           )}
-          <p className="text-xs font-bold tracking-wider text-sage ml-auto">
+          <p className={`text-xs font-medium ml-auto ${
+            title.length > 90 ? 'text-coral' : 'text-text-secondary'
+          }`}>
             {title.length}/100
           </p>
         </div>
@@ -74,34 +81,43 @@ export function TaskForm({ onAddTask }: TaskFormProps) {
       <div>
         <label
           htmlFor="description"
-          className="block text-sm font-bold uppercase tracking-wider text-text-primary mb-3"
+          className="block text-sm font-semibold text-text-primary mb-3"
         >
-          Description (optional)
+          Description <span className="text-text-secondary text-xs">(optional)</span>
         </label>
         <textarea
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Add more details..."
+          placeholder="Add more details about this task..."
           rows={3}
-          className="w-full px-5 py-4 bg-background border-3 border-charcoal
-                     text-text-primary placeholder-stone/60 font-medium
-                     focus:border-terracotta focus:shadow-brutal-sm
-                     transition-all duration-150
-                     hover:border-stone
+          className="w-full px-5 py-4 glass-card rounded-2xl
+                     text-text-primary placeholder:text-text-secondary/50 font-medium
+                     focus:ring-2 focus:ring-cyan/50 focus:shadow-glow-cyan
+                     transition-all duration-300
+                     hover:shadow-glass-lg
                      resize-none"
         />
       </div>
 
       <button
         type="submit"
-        className="w-full bg-terracotta border-3 border-charcoal
-                   text-cream-cool font-bold py-4 px-8 uppercase tracking-wider
-                   shadow-brutal brutal-hover
-                   transition-all duration-150
-                   focus:outline-none"
+        className="w-full bg-gradient-to-r from-purple via-cyan to-coral
+                   text-white font-bold py-4 px-8 rounded-2xl
+                   shadow-glass glass-hover
+                   transition-all duration-300
+                   hover:shadow-glass-xl hover:scale-[1.02]
+                   active:scale-[0.98]
+                   focus:outline-none focus:ring-2 focus:ring-purple/50
+                   relative overflow-hidden group"
       >
-        Add Task
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+          </svg>
+          Add Task
+        </span>
+        <div className="absolute inset-0 shimmer"></div>
       </button>
     </form>
   );

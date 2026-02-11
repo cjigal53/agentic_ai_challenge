@@ -12,51 +12,73 @@ interface TaskListProps {
 export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
   if (tasks.length === 0) {
     return (
-      <div className="text-center py-20 relative">
-        {/* Brutalist empty state */}
-        <div className="brutal-card border-sage shadow-brutal-sage inline-block p-12 corner-accent text-sage relative">
-          <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-background px-4">
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-sage font-sans">
-              Empty State
-            </span>
+      <div className="text-center py-16 relative">
+        {/* Glassmorphism Empty State */}
+        <div className="glass-card rounded-3xl p-12 md:p-16 max-w-xl mx-auto relative overflow-hidden">
+          {/* Decorative Gradient Orb */}
+          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-purple/20 to-cyan/20 rounded-full blur-3xl"></div>
+
+          {/* Animated Icon */}
+          <div className="relative mb-8 inline-flex">
+            <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-purple/20 to-cyan/20 flex items-center justify-center float">
+              <svg
+                className="w-12 h-12 text-purple"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            </div>
+            {/* Pulse ring */}
+            <div className="absolute inset-0 w-24 h-24 rounded-3xl bg-purple/20 animate-ping"></div>
           </div>
 
-          <div className="inline-flex items-center justify-center w-24 h-24 border-5 border-sage mb-6 rotate-45">
-            <svg
-              className="w-12 h-12 text-sage -rotate-45"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="square"
-                strokeLinejoin="miter"
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </svg>
-          </div>
-
-          <h3 className="text-3xl font-display font-black text-text-primary mb-3">
-            No tasks yet
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-4">
+            <span className="gradient-text">No tasks yet</span>
           </h3>
-          <div className="w-16 h-1 bg-sage mx-auto mb-4"></div>
-          <p className="text-base font-sans font-medium text-text-secondary max-w-xs mx-auto">
-            Create your first task to start organizing your work
-          </p>
-        </div>
 
-        {/* Decorative elements */}
-        <div className="absolute top-10 left-10 w-16 h-16 border-3 border-clay/30 rotate-12 pointer-events-none hidden md:block"></div>
-        <div className="absolute bottom-10 right-10 w-12 h-12 bg-terracotta/20 -rotate-12 pointer-events-none hidden md:block"></div>
+          <p className="text-base md:text-lg font-sans text-text-secondary max-w-sm mx-auto leading-relaxed">
+            Start your productivity journey by creating your first task above
+          </p>
+
+          {/* Decorative Elements */}
+          <div className="flex justify-center gap-2 mt-8">
+            <div className="w-2 h-2 rounded-full bg-purple animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-cyan animate-pulse" style={{animationDelay: "0.2s"}}></div>
+            <div className="w-2 h-2 rounded-full bg-coral animate-pulse" style={{animationDelay: "0.4s"}}></div>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {tasks.map((task) => (
-        <TaskItem key={task.id} task={task} onToggle={onToggle} onDelete={onDelete} />
+    <div className="space-y-4">
+      {/* Task count badge */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="glass-card px-4 py-2 rounded-xl inline-flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple to-cyan"></div>
+          <span className="text-sm font-semibold text-text-primary">
+            {tasks.length} {tasks.length === 1 ? 'Task' : 'Tasks'}
+          </span>
+        </div>
+      </div>
+
+      {/* Task items */}
+      {tasks.map((task, index) => (
+        <div
+          key={task.id}
+          className="animate-fade-in"
+          style={{animationDelay: `${index * 0.05}s`}}
+        >
+          <TaskItem task={task} onToggle={onToggle} onDelete={onDelete} />
+        </div>
       ))}
     </div>
   );

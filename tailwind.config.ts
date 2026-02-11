@@ -10,34 +10,33 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brutalist Editorial Color System
+        // Glassmorphism Gradient Flow Color System
         background: "var(--background)",
         foreground: "var(--foreground)",
 
-        // Terra/Natural Palette
-        terracotta: {
-          DEFAULT: "#D16847",
-          light: "#E38968",
-          dark: "#B5523C",
+        // Main Gradient Palette
+        purple: {
+          DEFAULT: "#6B46C1",
+          light: "#8B5CF6",
+          dark: "#5B21B6",
         },
-        sage: {
-          DEFAULT: "#7F9173",
-          light: "#9BAA90",
-          dark: "#667558",
+        cyan: {
+          DEFAULT: "#06B6D4",
+          light: "#22D3EE",
+          dark: "#0891B2",
         },
-        cream: {
-          DEFAULT: "#F5F1E8",
-          warm: "#EDE6D6",
-          cool: "#FAF8F3",
+        coral: {
+          DEFAULT: "#FF6B6B",
+          light: "#FF8787",
+          dark: "#FF5252",
         },
-        charcoal: {
-          DEFAULT: "#2B2B2B",
-          light: "#3D3D3D",
-          dark: "#1A1A1A",
+
+        // Neutral Palette
+        glass: {
+          bg: "var(--glass-bg)",
+          border: "var(--glass-border)",
+          shadow: "var(--glass-shadow)",
         },
-        clay: "#C89B7B",
-        stone: "#8B8680",
-        ink: "#1C1C1C",
 
         // Semantic colors
         "text-primary": "var(--text-primary)",
@@ -45,40 +44,38 @@ const config: Config = {
         "text-accent": "var(--text-accent)",
       },
       fontFamily: {
-        display: ["var(--font-playfair)", "serif"],
-        sans: ["var(--font-dm-sans)", "sans-serif"],
-      },
-      spacing: {
-        "xs": "0.25rem",
-        "sm": "0.5rem",
-        "md": "1rem",
-        "lg": "1.5rem",
-        "xl": "2rem",
-        "2xl": "3rem",
-        "3xl": "4rem",
-        "4xl": "6rem",
+        display: ["var(--font-sora)", "system-ui", "sans-serif"],
+        sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
       },
       borderRadius: {
-        none: "0",
-        sm: "2px",
-        DEFAULT: "3px",
-        md: "4px",
-      },
-      borderWidth: {
-        "3": "3px",
-        "5": "5px",
-        "6": "6px",
+        "xl": "16px",
+        "2xl": "24px",
+        "3xl": "32px",
       },
       boxShadow: {
-        brutal: "8px 8px 0px 0px rgba(0, 0, 0, 0.9)",
-        "brutal-sm": "4px 4px 0px 0px rgba(0, 0, 0, 0.8)",
-        "brutal-lg": "12px 12px 0px 0px rgba(0, 0, 0, 0.9)",
-        "brutal-terracotta": "8px 8px 0px 0px #D16847",
-        "brutal-sage": "8px 8px 0px 0px #7F9173",
+        "glass": "0 8px 32px var(--glass-shadow)",
+        "glass-lg": "0 12px 48px var(--glass-shadow)",
+        "glass-xl": "0 20px 64px var(--glass-shadow)",
+        "glow-purple": "0 0 40px rgba(107, 70, 193, 0.4)",
+        "glow-cyan": "0 0 40px rgba(6, 182, 212, 0.4)",
+        "glow-coral": "0 0 40px rgba(255, 107, 107, 0.4)",
+      },
+      backdropBlur: {
+        "xs": "2px",
+        "sm": "8px",
+        "md": "16px",
+        "lg": "24px",
+        "xl": "40px",
       },
       transitionDuration: {
-        "150": "150ms",
-        "200": "200ms",
+        "400": "400ms",
+      },
+      animation: {
+        "gradient-flow": "gradient-flow 20s ease infinite",
+        "float": "float 6s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "fade-in": "fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "shimmer": "shimmer 3s infinite",
       },
     },
   },

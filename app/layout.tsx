@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Sora, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-sora",
   display: "swap",
-  weight: ["400", "700", "900"],
+  weight: ["400", "600", "700", "800"],
 });
 
 const dmSans = DM_Sans({
@@ -17,8 +17,8 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Todo App by CJI - Agentic AI Challenge",
-  description: "A brutalist editorial todo application built with agentic AI workflow using Claude Code",
+  title: "Todo Flow - Agentic AI Challenge",
+  description: "A modern glassmorphism todo application built with agentic AI workflow using Claude Code",
 };
 
 export default function RootLayout({
@@ -46,7 +46,7 @@ export default function RootLayout({
           })();
         `}} />
       </head>
-      <body className={`${playfair.variable} ${dmSans.variable} antialiased`}>
+      <body className={`${sora.variable} ${dmSans.variable} antialiased`}>
         {children}
       </body>
     </html>
