@@ -10,55 +10,75 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Design System Colors
+        // Brutalist Editorial Color System
         background: "var(--background)",
         foreground: "var(--foreground)",
-        // Deep blacks and neon accents
-        "deep-black": "#0B0F14",
-        "glass-bg": "rgba(255, 255, 255, 0.05)",
-        "glass-border": "rgba(255, 255, 255, 0.1)",
-        "neon-cyan": "#06B6D4",
-        "neon-violet": "#8B5CF6",
-        // Text colors
-        "text-primary": "#EDEDED",
-        "text-secondary": "#A0A0A0",
+
+        // Terra/Natural Palette
+        terracotta: {
+          DEFAULT: "#D16847",
+          light: "#E38968",
+          dark: "#B5523C",
+        },
+        sage: {
+          DEFAULT: "#7F9173",
+          light: "#9BAA90",
+          dark: "#667558",
+        },
+        cream: {
+          DEFAULT: "#F5F1E8",
+          warm: "#EDE6D6",
+          cool: "#FAF8F3",
+        },
+        charcoal: {
+          DEFAULT: "#2B2B2B",
+          light: "#3D3D3D",
+          dark: "#1A1A1A",
+        },
+        clay: "#C89B7B",
+        stone: "#8B8680",
+        ink: "#1C1C1C",
+
+        // Semantic colors
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
+        "text-accent": "var(--text-accent)",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
+        display: ["var(--font-playfair)", "serif"],
+        sans: ["var(--font-dm-sans)", "sans-serif"],
       },
       spacing: {
-        "xs": "4px",
-        "sm": "8px",
-        "md": "16px",
-        "lg": "24px",
-        "xl": "32px",
-        "2xl": "48px",
-        "3xl": "64px",
+        "xs": "0.25rem",
+        "sm": "0.5rem",
+        "md": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "2xl": "3rem",
+        "3xl": "4rem",
+        "4xl": "6rem",
       },
       borderRadius: {
-        "sm": "8px",
-        "md": "12px",
-        "lg": "16px",
-        "xl": "20px",
-        "2xl": "24px",
+        none: "0",
+        sm: "2px",
+        DEFAULT: "3px",
+        md: "4px",
       },
-      backdropBlur: {
-        xs: "2px",
-        sm: "4px",
-        md: "8px",
-        lg: "12px",
-        xl: "16px",
-        "2xl": "24px",
+      borderWidth: {
+        "3": "3px",
+        "5": "5px",
+        "6": "6px",
+      },
+      boxShadow: {
+        brutal: "8px 8px 0px 0px rgba(0, 0, 0, 0.9)",
+        "brutal-sm": "4px 4px 0px 0px rgba(0, 0, 0, 0.8)",
+        "brutal-lg": "12px 12px 0px 0px rgba(0, 0, 0, 0.9)",
+        "brutal-terracotta": "8px 8px 0px 0px #D16847",
+        "brutal-sage": "8px 8px 0px 0px #7F9173",
       },
       transitionDuration: {
         "150": "150ms",
         "200": "200ms",
-        "250": "250ms",
-      },
-      boxShadow: {
-        "glow-cyan": "0 0 20px rgba(6, 182, 212, 0.5)",
-        "glow-violet": "0 0 20px rgba(139, 92, 246, 0.5)",
-        "glow-red": "0 0 20px rgba(239, 68, 68, 0.5)",
       },
     },
   },

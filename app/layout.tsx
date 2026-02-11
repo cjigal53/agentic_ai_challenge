@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-playfair",
   display: "swap",
+  weight: ["400", "700", "900"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Todo App by CJI - Agentic AI Challenge",
-  description: "A modern, futuristic todo application built with agentic AI workflow using Claude Code",
+  description: "A brutalist editorial todo application built with agentic AI workflow using Claude Code",
 };
 
 export default function RootLayout({
@@ -38,7 +46,7 @@ export default function RootLayout({
           })();
         `}} />
       </head>
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${playfair.variable} ${dmSans.variable} antialiased`}>
         {children}
       </body>
     </html>

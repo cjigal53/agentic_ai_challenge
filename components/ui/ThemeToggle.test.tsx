@@ -121,12 +121,14 @@ describe('ThemeToggle', () => {
     render(<ThemeToggle />);
     const button = screen.getByRole('button');
 
-    // Glassmorphism design (Issue #25)
-    expect(button).toHaveClass('p-3');
-    expect(button).toHaveClass('glass-card');
-    expect(button).toHaveClass('rounded-xl');
+    // Brutalist design (Issue #27)
+    expect(button).toHaveClass('p-4');
+    expect(button).toHaveClass('brutal-card');
+    expect(button).toHaveClass('border-charcoal');
+    expect(button).toHaveClass('shadow-brutal-sm');
+    expect(button).toHaveClass('text-text-primary');
+    expect(button).toHaveClass('brutal-hover');
     expect(button).toHaveClass('focus:outline-none');
-    expect(button).toHaveClass('focus:ring-2');
   });
 
   it('should have title attribute for tooltip', () => {
